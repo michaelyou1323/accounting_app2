@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "235664335747",
+    "project_id": "accounting-app2",
+    "storage_bucket": "accounting-app2.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:235664335747:android:9771cf3419124412bc4cb6",
+        "android_client_info": {
+          "package_name": "com.example.accounting_app2"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDBYRd-73Ohy4yQvOnSV4yWKUvbx8hTjBk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
