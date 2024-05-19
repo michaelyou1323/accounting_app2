@@ -5,19 +5,23 @@ import 'package:firebase_core/firebase_core.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
-  runApp(MyApp());
+  runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
+  const MyApp({super.key});
+
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return const MaterialApp(
       home: MyListViewScreen(),
     );
   }
 }
 
 class MyListViewScreen extends StatefulWidget {
+  const MyListViewScreen({super.key});
+
   @override
   _MyListViewScreenState createState() => _MyListViewScreenState();
 }
@@ -37,7 +41,7 @@ class _MyListViewScreenState extends State<MyListViewScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('العملاد'),
+        title: const Text('العملاد'),
       ),
       body: ListView.builder(
         itemCount: items.length,
@@ -59,16 +63,16 @@ class _MyListViewScreenState extends State<MyListViewScreen> {
             },
           );
         },
-        child: Icon(Icons.add),
+        child: const Icon(Icons.add),
       ),
     );
   }
 
   void fetchDataFromFirebase() {
 
-    final DatabaseReference _ref = FirebaseDatabase.instance.ref().child("users/hmn nm/-Nhp3kwLBuSocwfURtfu");
+    final DatabaseReference ref = FirebaseDatabase.instance.ref().child("users/hmn nm/-Nhp3kwLBuSocwfURtfu");
 
-    _ref.onValue.listen((event) {
+    ref.onValue.listen((event) {
       final snapshot = event.snapshot;
       if (snapshot.value != null) {
         final Map<String, dynamic>? data = snapshot.value as Map<String, dynamic>?;
@@ -125,7 +129,7 @@ class MyListItem extends StatefulWidget {
  // final String key;
   final Function onDelete;
 
-  MyListItem({
+  const MyListItem({super.key, 
     required this.firstName,
     required this.lastName,
     required this.additionalInfo,
@@ -153,8 +157,8 @@ class _MyListItemState extends State<MyListItem> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.all(16.0),
-      margin: EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
+      padding: const EdgeInsets.all(16.0),
+      margin: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
       decoration: BoxDecoration(
         border: Border.all(color: Colors.grey),
         borderRadius: BorderRadius.circular(10.0),
@@ -168,30 +172,30 @@ class _MyListItemState extends State<MyListItem> {
               Expanded(
                 child: TextField(
                   controller: _firstNameController,
-                  decoration: InputDecoration(labelText: 'الاسم'),
+                  decoration: const InputDecoration(labelText: 'الاسم'),
                 ),
               ),
-              SizedBox(width: 8.0),
+              const SizedBox(width: 8.0),
               Expanded(
                 child: TextField(
                   controller: _lastNameController,
-                  decoration: InputDecoration(labelText: 'المبلغ'),
+                  decoration: const InputDecoration(labelText: 'المبلغ'),
                 ),
               ),
               IconButton(
-                icon: Icon(Icons.close),
+                icon: const Icon(Icons.close),
                 onPressed: () {
                   widget.onDelete();
                 },
               ),
             ],
           ),
-          SizedBox(height: 8.0),
+          const SizedBox(height: 8.0),
           TextField(
             controller: _additionalInfoController,
-            decoration: InputDecoration(labelText: 'تفاصيل'),
+            decoration: const InputDecoration(labelText: 'تفاصيل'),
           ),
-          SizedBox(height: 16.0),
+          const SizedBox(height: 16.0),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
@@ -199,17 +203,17 @@ class _MyListItemState extends State<MyListItem> {
                 onPressed: () {
                   // Add your button logic here
                 },
-                child: Text('له'),
+                child: const Text('له'),
               ),
               ElevatedButton(
                 onPressed: () {
                   // Add your button logic here
                 },
-                child: Text('عليه'),
+                child: const Text('عليه'),
               ),
             ],
           ),
-          SizedBox(height: 16.0),
+          const SizedBox(height: 16.0),
         ],
       ),
     );
@@ -219,49 +223,49 @@ class _MyListItemState extends State<MyListItem> {
 class AddItemForm extends StatefulWidget {
   final Function(MyListItem) onSubmit;
 
-  AddItemForm(this.onSubmit);
+  const AddItemForm(this.onSubmit, {super.key});
 
   @override
   _AddItemFormState createState() => _AddItemFormState();
 }
 
 class _AddItemFormState extends State<AddItemForm> {
-  TextEditingController _firstNameController = TextEditingController();
-  TextEditingController _lastNameController = TextEditingController();
-  TextEditingController _additionalInfoController = TextEditingController();
+  final TextEditingController _firstNameController = TextEditingController();
+  final TextEditingController _lastNameController = TextEditingController();
+  final TextEditingController _additionalInfoController = TextEditingController();
 
   final DatabaseReference _ref = FirebaseDatabase.instance.ref().child("users");
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.all(16.0),
+      padding: const EdgeInsets.all(16.0),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          Text(
+          const Text(
             'إضافة عميل',
             style: TextStyle(
               fontSize: 20.0,
               fontWeight: FontWeight.bold,
             ),
           ),
-          SizedBox(height: 16.0),
+          const SizedBox(height: 16.0),
           TextField(
             controller: _firstNameController,
-            decoration: InputDecoration(labelText: 'الاسم'),
+            decoration: const InputDecoration(labelText: 'الاسم'),
           ),
-          SizedBox(height: 8.0),
+          const SizedBox(height: 8.0),
           TextField(
             controller: _lastNameController,
-            decoration: InputDecoration(labelText: 'المبلغ'),
+            decoration: const InputDecoration(labelText: 'المبلغ'),
           ),
-          SizedBox(height: 8.0),
+          const SizedBox(height: 8.0),
           TextField(
             controller: _additionalInfoController,
-            decoration: InputDecoration(labelText: 'تفاصيل'),
+            decoration: const InputDecoration(labelText: 'تفاصيل'),
           ),
-          SizedBox(height: 16.0),
+          const SizedBox(height: 16.0),
           ElevatedButton(
             onPressed: () {
               String firstName = _firstNameController.text;
@@ -272,7 +276,7 @@ class _AddItemFormState extends State<AddItemForm> {
               });
               Navigator.pop(context);
             },
-            child: Text('إضافة العميل'),
+            child: const Text('إضافة العميل'),
           ),
         ],
       ),

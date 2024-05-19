@@ -30,11 +30,29 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
+  arabic_tools: ^0.0.4
+  pdf: ^3.10.6
+  share_plus: ^7.2.1
+  firebase_storage: ^11.5.0
+  uuid: ^4.2.1
+  image_picker: ^1.0.4
+  intl: ^0.18.1
+  flutter_keyboard_visibility: ^5.4.1
   firebase_core: ^2.20.0
   firebase_database: ^10.3.2
-  fluttertoast: ^8.2.2
+  fluttertoast: ^8.2.4
   toast: ^0.3.0
   provider: ^6.0.2
+  shared_preferences: ^2.0.8
+  math_expressions: ^2.4.0
+  path_provider: ^2.0.2
+  url_launcher: ^6.0.13
+  open_file: ^3.3.2
+  file_picker: ^6.1.1
+  restart_app: ^1.2.1
+  local_auth: ^2.1.8
+  permission_handler: ^11.2.1
+  flutter_phoenix: ^1.0.0
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.2
@@ -55,11 +73,19 @@ dev_dependencies:
 
 # The following section is specific to Flutter packages.
 flutter:
+  fonts:
+    - family: Cairo
+      fonts:
+        - asset: assets/fonts/Cairo-Bold.ttf
+        - asset: assets/fonts/HacenTunisia.ttf
+
+
 
   # The following line ensures that the Material Icons font is
   # included with your application, so that you can use the icons in
   # the material Icons class.
   uses-material-design: true
+
 
   # To add assets to your application, add an assets section, like this:
   # assets:
