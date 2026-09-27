@@ -1,28 +1,15 @@
-// import 'dart:async';
-
-//
-// import 'package:accounting_app2/user_details_screen.dart';
-
 import 'package:accounting_app2/user_details_screen.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/foundation.dart';
-
-// import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-
 import 'package:intl/intl.dart';
-
 import 'dart:ui' as ui;
-
-// import 'package:flutter/cupertino.dart';
-
 import 'dart:io';
 import 'package:pdf/pdf.dart';
 import 'package:pdf/widgets.dart' as pw;
 import 'package:share_plus/share_plus.dart';
 import 'package:path_provider/path_provider.dart';
-
 import 'AddItemForm.dart';
 
 class UserData extends StatefulWidget {
@@ -66,21 +53,16 @@ class _UserData extends State<UserData> {
   late DatabaseReference numberOfUsers;
   bool _showTextField = false;
   List<String> searchNodes = [];
-  List<String> childNodes =
-  []; // List to store child nodes for each reference name
+  List<String> childNodes = []; // List to store child nodes for each reference name
   List<String> childData = [];
   List<String> reversedUserNames = [];
-
   // List<String> reversedUserNames1 = [];
   bool isExpanded = false;
-
 //  List<String> childData2 = [];
   int currentNumberForDeletedUser = 0;
   bool currentStatusForDeletedUser = false;
   String lastChild = " ";
-
   // late DatabaseReference _ref;
-
   int lastUserBalance = 0;
 
   @override
@@ -97,13 +79,9 @@ class _UserData extends State<UserData> {
         .child(widget.dataCollection)
         .child(widget.userName);
 
-    // Attach Firebase listeners
     setState(() {
       _attachFirebaseListeners();
     });
-
-    // Fetch user data to update total sums
-    // Moved here to ensure it's called after Firebase setup
     WidgetsBinding.instance.addPostFrameCallback((_) {
       fetchUserDataForSums();
     });
@@ -533,9 +511,6 @@ class _UserData extends State<UserData> {
   }
 
   Future<Map<String, dynamic>> fetchLastUserData() async {
-    // lastChild = reversedUserNames.first;
-
-    //  print("$lastChild1 last one");
     final ref = FirebaseDatabase.instance.ref();
     final snapshot = await ref
         .child(widget.dataCollections[widget.currentPage])
@@ -564,16 +539,8 @@ class _UserData extends State<UserData> {
   Future<void> getLastUserBalance() async {
     // If the search query is empty, reset the list to its original state
     Map<String, dynamic> userData = await fetchLastUserData();
-    //lastUserBalance =  * -1;
-    print(
-        "User Data: $userData   vvvvvvvvvvvvvvvvvvvvvvvv vvvvvvvv vvvvvvvv vvvvvvvv vvvvvvvv vvvvvvvv vvvvvvvv vvvvvvvv"); // Check the entire userData map
-    print(
-        "Number: ${userData['number']}   vvvvvvvvvvvvvvvvvvvvvvvv vvvvvvvv vvvvvvvv vvvvvvvv vvvvvvvv vvvvvvvv vvvvvvvv vvvvvvvv"); // Check the specific value you're trying to parse
-    //  var number = int.parse(userData["number"].trim());
     lastUserBalance = userData["number"] * -1;
-    print(
-        "$lastUserBalance   _______   ++++++++   ++++++++   ++++++++   ++++++++   ++++++++   ++++++++   ++++++++   ++++++++");
-  }
+    }
 
   @override
   void dispose() {
@@ -602,22 +569,14 @@ class _UserData extends State<UserData> {
                 search(value);
               },
               onSubmitted: (value) {
-                // search(value);
-                //  setState(() {
-                //    _showTextField = !_showTextField;
-                //   childNodes = searchNodes;
-                //  });
-                //
-                //  print("++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++");
+
               },
             ))
             : GestureDetector(
           onTap: () {
-            //  setState(() {
-            // //   _showTextField = true;
-            //  });
-          },
-          child: Container(
+            },
+          child:
+          Container(
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(10),
               border: Border.all(
@@ -765,7 +724,8 @@ class _UserData extends State<UserData> {
             ),
             Expanded(
               child: SingleChildScrollView(
-                child: ListView.builder(
+                child:
+                ListView.builder(
                   shrinkWrap: true,
                   physics: const NeverScrollableScrollPhysics(),
                   itemCount: reversedUserNames.length,

@@ -1,8 +1,8 @@
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-
 import 'ExpandableListViewItem.dart';
+
 
 class VerticalListViewItem extends StatefulWidget {
   final List<String> userNames;

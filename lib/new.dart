@@ -19,9 +19,7 @@ import 'VerticalListViewItem.dart';
 import 'package:permission_handler/permission_handler.dart';
 
 import 'changePassword.dart';
-
-
-
+import 'dev_screen.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -34,7 +32,6 @@ void main() async {
       ),
     ),
   );
-
 }
 
 class NestedListViewDemo extends StatefulWidget {
@@ -44,9 +41,6 @@ class NestedListViewDemo extends StatefulWidget {
 
   @override
   _NestedListViewDemoState createState() => _NestedListViewDemoState();
-
-
-
 }
 
 class _NestedListViewDemoState extends State<NestedListViewDemo> {
@@ -54,8 +48,10 @@ class _NestedListViewDemoState extends State<NestedListViewDemo> {
 
   bool _showAdditionalActions = false;
   late SharedPreferences _prefs;
-  var  currentPage2 ;
+  var currentPage2;
+
   final PageController _pageController = PageController();
+
   var currentPage = 0;
   List<String> pageTitles = ["FirstPage"]; // Titles for the pages
   List<String> childNodes = []; // List to store child nodes for each reference name
@@ -74,12 +70,9 @@ class _NestedListViewDemoState extends State<NestedListViewDemo> {
   // SharedPreferences? prefs ;
   // Update initState method to set currentPage based on pageTitles length
 
-
   @override
   void initState() {
-
     _requestPermission();
-
 
     super.initState();
 
@@ -93,12 +86,12 @@ class _NestedListViewDemoState extends State<NestedListViewDemo> {
       });
     });
 
+
+
     fetchData();
 
     _getStoragePermission();
-
   }
-
 
   void search(String query) {
     // Filter childNodes list based on the query
@@ -106,20 +99,17 @@ class _NestedListViewDemoState extends State<NestedListViewDemo> {
         .where((node) => node.toLowerCase().contains(query.toLowerCase()))
         .toList();
     setState(() {
-
       childNodes = searchResults;
       if (kDebugMode) {
         print("Search results: $searchResults");
       }
     });
-
-
   }
 
   Future<void> _requestPermission() async {
     if (await Permission.scheduleExactAlarm.request().isGranted
-    //  &&  await Permission.storage.request().isGranted
-    ) {
+        //  &&  await Permission.storage.request().isGranted
+        ) {
       // Permission is granted, you can now schedule exact alarms
       if (kDebugMode) {
         print('SCHEDULE_EXACT_ALARM permission is granted.');
@@ -131,9 +121,6 @@ class _NestedListViewDemoState extends State<NestedListViewDemo> {
       }
     }
   }
-
-
-
 
   Future<void> _checkAppStatus() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -148,15 +135,13 @@ class _NestedListViewDemoState extends State<NestedListViewDemo> {
   }
 
   Future<void> done() async {
-    if (kDebugMode) {
-    }
+    if (kDebugMode) {}
   }
 
   void don() {
     // Handle alarm trigger logic here
 
-    if (kDebugMode) {
-    }
+    if (kDebugMode) {}
   }
 
 // Modify the fetchData method to handle currentPage bounds
@@ -189,20 +174,12 @@ class _NestedListViewDemoState extends State<NestedListViewDemo> {
     }
   }
 
-
-
   int totalPriceSum = 0;
   String errorMessage = '';
   List<Map<dynamic, dynamic>> dataList = [];
 
-
-
-
   Future<void> fetchChildNodes(String referenceName) async {
-
-    Future.delayed(const Duration(milliseconds:0), () {
-
-
+    Future.delayed(const Duration(milliseconds: 0), () {
       Completer<void> completer = Completer<void>();
 
       final usersRef = FirebaseDatabase.instance.ref().child(referenceName);
@@ -228,21 +205,16 @@ class _NestedListViewDemoState extends State<NestedListViewDemo> {
         completer.completeError(error); // Complete with error
       }, onDone: () {
         // Reverse the order of childNodes after all children are added
-        setState(() {
-
-        });
+        setState(() {});
         completer.complete(); // Complete without error
       });
 
       // Listener for changing a child
       usersRef.onChildChanged.listen(
-            (event) {
+        (event) {
           String? childName = event.snapshot.key;
-          if(childName != null){
-          }
-          setState(() {
-
-          });
+          if (childName != null) {}
+          setState(() {});
         },
         onError: (error) {
           if (kDebugMode) {
@@ -253,10 +225,10 @@ class _NestedListViewDemoState extends State<NestedListViewDemo> {
 
       // Listener for removing a child
       usersRef.onChildRemoved.listen(
-            (event) {
+        (event) {
           String? childName = event.snapshot.key;
           if (childName != null) {
-            if(mounted) {
+            if (mounted) {
               setState(() {
                 childNodes.remove(
                     childName); // Remove the deleted child from the local list
@@ -273,24 +245,15 @@ class _NestedListViewDemoState extends State<NestedListViewDemo> {
       );
 
       setState(() {
-
         searchNodes = childNodes;
       });
 
       return completer.future; // Return the Future
     });
-
-
   }
 
-
-
-
-
   Future<void> fetchCollectionNodes() async {
-
     setState(() {
-
       dataCollections.clear();
       pageTitles.clear();
       nodes.clear();
@@ -312,13 +275,16 @@ class _NestedListViewDemoState extends State<NestedListViewDemo> {
       // Check the type of snapshot value
       if (event.snapshot.value is Map<dynamic, dynamic>) {
         // Case: snapshot value is a Map
-        Map<dynamic, dynamic> dataCollectionsMap = event.snapshot.value as Map<dynamic, dynamic>;
+        Map<dynamic, dynamic> dataCollectionsMap =
+            event.snapshot.value as Map<dynamic, dynamic>;
 
         //   print("$dataCollectionsMap ---------------");
 
         // Iterate through the map entries and add each element to the dataCollections and pageTitles
         dataCollectionsMap.forEach((key, value) {
-          if (value != null && value is Map<dynamic, dynamic> && value['value'] != null) {
+          if (value != null &&
+              value is Map<dynamic, dynamic> &&
+              value['value'] != null) {
             setState(() {
               dataCollections.add(value['value'].toString());
               pageTitles.add(value['value'].toString());
@@ -330,13 +296,16 @@ class _NestedListViewDemoState extends State<NestedListViewDemo> {
         });
       } else if (event.snapshot.value is List<dynamic>) {
         // Case: snapshot value is a List
-        List<dynamic> dataCollectionsList = event.snapshot.value as List<dynamic>;
+        List<dynamic> dataCollectionsList =
+            event.snapshot.value as List<dynamic>;
 
         //  print("$dataCollectionsList ---------------");
 
         // Iterate through the list and add each element to the dataCollections and pageTitles
         for (var item in dataCollectionsList) {
-          if (item != null && item is Map<dynamic, dynamic> && item['value'] != null) {
+          if (item != null &&
+              item is Map<dynamic, dynamic> &&
+              item['value'] != null) {
             setState(() {
               dataCollections.add(item['value'].toString());
               pageTitles.add(item['value'].toString());
@@ -353,22 +322,9 @@ class _NestedListViewDemoState extends State<NestedListViewDemo> {
         }
       }
 
-      // Now you have the nodes stored locally with their key and value
-      //  print("Nodes stored locally: $nodes");
     }
 
-    // Print the retrieved data
-    //  print("Data retrieved from dataCollections: $dataCollections -----");
-    //  print("Data retrieved from pages: $pageTitles -----");
   }
-
-
-
-
-
-
-
-
 
   void addNewPageWithTitleAndReference(String title, String referenceName) {
     setState(() {
@@ -377,8 +333,6 @@ class _NestedListViewDemoState extends State<NestedListViewDemo> {
       // dataCollections.add(referenceName);
     });
   }
-
-
 
   Future<void> _showAddPageDialog(BuildContext context) async {
     String newReferenceName = '';
@@ -428,10 +382,11 @@ class _NestedListViewDemoState extends State<NestedListViewDemo> {
                 ),
                 ElevatedButton(
                   onPressed: () async {
-
                     if (newReferenceName.isNotEmpty && warningText == false) {
                       DatabaseReference? ref;
-                      ref = FirebaseDatabase.instance.ref().child("dataCollections");
+                      ref = FirebaseDatabase.instance
+                          .ref()
+                          .child("dataCollections");
 
                       // Fetch data once from the database
                       DatabaseEvent event = await ref.once();
@@ -442,7 +397,8 @@ class _NestedListViewDemoState extends State<NestedListViewDemo> {
                       if (event.snapshot.value != null) {
                         if (event.snapshot.value is List) {
                           // Handle the case where the value is a list
-                          numberOfElements = (event.snapshot.value as List).length;
+                          numberOfElements =
+                              (event.snapshot.value as List).length;
                         }
                       }
 
@@ -450,7 +406,9 @@ class _NestedListViewDemoState extends State<NestedListViewDemo> {
                       //numberOfElements++;
                       //    print(numberOfElements);
                       // Set the new element with the incremented key
-                      ref.child("$numberOfElements").set({"value": newReferenceName});
+                      ref
+                          .child("$numberOfElements")
+                          .set({"value": newReferenceName});
                       setState(() {
                         //  currentPage = dataCollections.length ;
                         fetchData();
@@ -458,9 +416,9 @@ class _NestedListViewDemoState extends State<NestedListViewDemo> {
                       });
                       Navigator.of(context).pop();
                     } else {
-                      Fluttertoast.showToast(msg: 'برجاء اضافة اسم الحقل بشكل صحيحس');
+                      Fluttertoast.showToast(
+                          msg: 'برجاء اضافة اسم الحقل بشكل صحيحس');
                     }
-
                   },
                   child: const Text('إضافة'),
                 ),
@@ -471,10 +429,6 @@ class _NestedListViewDemoState extends State<NestedListViewDemo> {
       },
     );
   }
-
-
-
-
 
   Future<void> deleteRecordByValue() async {
     final ref = FirebaseDatabase.instance.ref();
@@ -488,7 +442,6 @@ class _NestedListViewDemoState extends State<NestedListViewDemo> {
     }
 
     if (snapshot.value != null && snapshot.value is List) {
-
       // Find the node associated with the specified value
       Node? nodeToDelete;
       for (Node node in nodes) {
@@ -509,7 +462,8 @@ class _NestedListViewDemoState extends State<NestedListViewDemo> {
 
           // print(nodeToDelete);
           if (kDebugMode) {
-            print('Record with value ${dataCollections[currentPage]} deleted successfully.');
+            print(
+                'Record with value ${dataCollections[currentPage]} deleted successfully.');
           }
 
           // Update local lists after deletion
@@ -535,16 +489,10 @@ class _NestedListViewDemoState extends State<NestedListViewDemo> {
     }
   }
 
-
-
-
   Future<void> requestPermission() async {
     final PermissionStatus status = await Permission.storage.request();
-    if (status != PermissionStatus.granted) {
-
-    }
+    if (status != PermissionStatus.granted) {}
   }
-
 
   Future _getStoragePermission() async {
     if (await Permission.storage.request().isGranted) {
@@ -554,17 +502,14 @@ class _NestedListViewDemoState extends State<NestedListViewDemo> {
     }
   }
 
-
   Future<void> _backupData() async {
     if (kDebugMode) {
       print("Backup data function called at ${DateTime.now()}");
     }
 
-
     try {
       // Fetch data from Firebase Realtime Database
-      DatabaseEvent event =
-      await FirebaseDatabase.instance.ref().once();
+      DatabaseEvent event = await FirebaseDatabase.instance.ref().once();
       DataSnapshot snapshot = event.snapshot;
 
       // Convert fetched data to JSON
@@ -587,9 +532,6 @@ class _NestedListViewDemoState extends State<NestedListViewDemo> {
 
       // Display a dialog with the file name and path
 
-
-
-
       Fluttertoast.showToast(
         msg: 'تم عمل النسخة الاحتياطية',
         toastLength: Toast.LENGTH_LONG,
@@ -598,9 +540,6 @@ class _NestedListViewDemoState extends State<NestedListViewDemo> {
         textColor: Colors.white,
         fontSize: 16.0,
       );
-
-
-
     } catch (error) {
       if (kDebugMode) {
         print('خطأ في النسخ: $error');
@@ -624,45 +563,45 @@ class _NestedListViewDemoState extends State<NestedListViewDemo> {
   Future<void> _uploadBackupData(BuildContext context) async {
     BuildContext dialogContext = context;
     bool confirmed = await showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return AlertDialog(
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(10.0),
-          ),
-          backgroundColor: Colors.white,
-          elevation: 4.0,
-          title: const Text(
-            "رفع نسخة إحتياطية",
-            style: TextStyle(
-              color: Colors.black,
-              fontWeight: FontWeight.bold,
-            ),
-          ),
-          content: const Text(
-            "هل أنت متأكد أنك تريد استبدال بياناتك بأخر نسخة احتياطية ؟",
-            style: TextStyle(color: Colors.black),
-          ),
-          actions: <Widget>[
-            TextButton(
-              onPressed: () => Navigator.of(context).pop(false),
-              style: ButtonStyle(
-                foregroundColor: MaterialStateProperty.all(Colors.red),
+          context: context,
+          builder: (BuildContext context) {
+            return AlertDialog(
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(10.0),
               ),
-              child: const Text("إلغاء"),
-            ),
-            TextButton(
-              onPressed: () => Navigator.of(context).pop(true),
-              style: ButtonStyle(
-                foregroundColor: MaterialStateProperty.all(Colors.green),
+              backgroundColor: Colors.white,
+              elevation: 4.0,
+              title: const Text(
+                "رفع نسخة إحتياطية",
+                style: TextStyle(
+                  color: Colors.black,
+                  fontWeight: FontWeight.bold,
+                ),
               ),
-              child: const Text("نعم"),
-            ),
-          ],
-        );
-
-      },
-    )?? false; // Add a default value of false if confirmed is null
+              content: const Text(
+                "هل أنت متأكد أنك تريد استبدال بياناتك بأخر نسخة احتياطية ؟",
+                style: TextStyle(color: Colors.black),
+              ),
+              actions: <Widget>[
+                TextButton(
+                  onPressed: () => Navigator.of(context).pop(false),
+                  style: ButtonStyle(
+                    foregroundColor: MaterialStateProperty.all(Colors.red),
+                  ),
+                  child: const Text("إلغاء"),
+                ),
+                TextButton(
+                  onPressed: () => Navigator.of(context).pop(true),
+                  style: ButtonStyle(
+                    foregroundColor: MaterialStateProperty.all(Colors.green),
+                  ),
+                  child: const Text("نعم"),
+                ),
+              ],
+            );
+          },
+        ) ??
+        false; // Add a default value of false if confirmed is null
 
     if (confirmed) {
       try {
@@ -699,14 +638,14 @@ class _NestedListViewDemoState extends State<NestedListViewDemo> {
                         // RestartApp.restartApp(context);
                         Phoenix.rebirth(context);
                       },
-                      child: const Text("تم", style: TextStyle(color: Colors.green),)
-                  ),
+                      child: const Text(
+                        "تم",
+                        style: TextStyle(color: Colors.green),
+                      )),
                 ],
               );
             },
-          )
-
-              .then((value) =>  Phoenix.rebirth(context));
+          ).then((value) => Phoenix.rebirth(context));
         } else {
           Fluttertoast.showToast(
             msg: 'لا يوجد نسخة لرفعها',
@@ -733,55 +672,36 @@ class _NestedListViewDemoState extends State<NestedListViewDemo> {
     }
   }
 
-
   void reloadCurrentPageData() {
     if (dataCollections.isNotEmpty && currentPage >= 0 && currentPage < dataCollections.length) {
       fetchChildNodes(dataCollections[currentPage]);
     }
   }
 
-  // void _filterNodes(String query) {
-  //   setState(() {
-  //     filteredNodes = childNodes
-  //         .where((node) => node.toLowerCase().contains(query.toLowerCase()))
-  //         .toList();
-  //   });
-  // }
-
-
 
 
   Future<void> _loadPageTitles() async {
-    SharedPreferences prefs =
-    await SharedPreferences.getInstance();
+    SharedPreferences prefs = await SharedPreferences.getInstance();
     setState(() {
       pageTitles = prefs.getStringList('pageTitles') ?? [];
     });
   }
-
-
-
 
   Future<void> _initSharedPreferences() async {
     _prefs = await SharedPreferences.getInstance();
     setState(() {
       currentPage2 = _prefs.getInt('currentPage') ?? 0; // Get last opened page
     });
-    //  _pageController = PageController(initialPage: currentPage); // Initialize PageController
 
-    // Delay the call to animateToPage
-
-    await Future.delayed(const Duration(milliseconds: 2000), () {
+    await Future.delayed(const Duration(milliseconds: 100), () {
       _pageController.animateToPage(
         currentPage2,
-        duration: const Duration(milliseconds: 1300), // Adjust the duration as needed
-        curve: Curves.easeInOut, // Adjust the curve as needed
-
+        duration: const Duration(milliseconds: 100),
+        // Adjust the duration as needed
+        curve: Curves.linear, // Adjust the curve as needed
       );
       currentPage = currentPage2;
     });
-
-
   }
 
   Future<void> _saveCurrentPage(int page) async {
@@ -790,13 +710,12 @@ class _NestedListViewDemoState extends State<NestedListViewDemo> {
     // print("saved page is  $page -------------========== -------------========== -------------========== -------------========== -------------========== -------------========== -------------==========");
   }
 
-
-
   List<VerticalListViewItem> pages = [];
 
   @override
   void dispose() {
-    final fetchChildNodesRef = FirebaseDatabase.instance.ref().child(dataCollections[currentPage]);
+    final fetchChildNodesRef =
+        FirebaseDatabase.instance.ref().child(dataCollections[currentPage]);
 
     fetchChildNodesRef.onChildAdded.drain();
     fetchChildNodesRef.onChildChanged.drain();
@@ -804,11 +723,6 @@ class _NestedListViewDemoState extends State<NestedListViewDemo> {
 
     super.dispose();
   }
-
-
-
-
-
 
   @override
   Widget build(BuildContext context) {
@@ -821,110 +735,103 @@ class _NestedListViewDemoState extends State<NestedListViewDemo> {
           _backupData();
 
           Future.delayed(const Duration(milliseconds: 200), () {
-
             SystemNavigator.pop();
           });
 
           return true;
         },
         child: Scaffold(
-          appBar:AppBar(
+          appBar: AppBar(
             automaticallyImplyLeading: false,
             title: _showTextField
-                ?
-            Directionality(
-                textDirection: ui.TextDirection.rtl, // Right-to-Left direction
-                child:
-                TextField(
-                  autofocus: true, // Set autofocus to true
-                  decoration: const InputDecoration(
-                    hintText: 'بحثـــ....',
-                    hintStyle: TextStyle(color: Colors.black),
-                  ),
-                  style: const TextStyle(color: Colors.black),
-                  onChanged: (value) {
-                    search(value);
-                  },
-                  onSubmitted: (value) {
-
-                  },
-                ) )
+                ? Directionality(
+                    textDirection:
+                        ui.TextDirection.rtl, // Right-to-Left direction
+                    child: TextField(
+                      autofocus: true,
+                      // Set autofocus to true
+                      decoration: const InputDecoration(
+                        hintText: 'بحثـــ....',
+                        hintStyle: TextStyle(color: Colors.black),
+                      ),
+                      style: const TextStyle(color: Colors.black),
+                      onChanged: (value) {
+                        search(value);
+                      },
+                      onSubmitted: (value) {},
+                    ))
                 : GestureDetector(
-              onTap: () {
-
-              },
-              child: Container(
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(10),
-                  border: Border.all(
-                    color: Colors.grey,
+                    onTap: () {},
+                    child: Container(
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(10),
+                        border: Border.all(
+                          color: Colors.grey,
+                        ),
+                      ),
+                      child: Center(
+                        child: Text(
+                          pageTitles.isNotEmpty
+                              ? pageTitles[currentPage]
+                              : 'No',
+                          style: const TextStyle(
+                              color: Colors.black, fontSize: 25),
+                        ),
+                      ),
+                    ),
+                    // ),
                   ),
-                ),
-                child:
-                Center(
-                  child:  Text(
-                    pageTitles.isNotEmpty ? pageTitles[currentPage] : 'No',
-                    style: const TextStyle(color: Colors.black, fontSize: 25),
-                  ),
-                ),
-              ),
-              // ),
-            ),
             actions: <Widget>[
-
               _showTextField
-                  ?
-              IconButton(
-                icon:
-                const Icon(Icons.close),
+                  ? IconButton(
+                      icon: const Icon(Icons.close),
+                      onPressed: () {
+                        setState(() {
+                          _showTextField = !_showTextField;
+                          childNodes = searchNodes;
+                        });
+                      },
+                    )
+                  : IconButton(
+                      icon: const Icon(Icons.search_sharp),
+                      onPressed: () {
+                        setState(() {
+                          _showTextField =
+                              !_showTextField; // Toggle the text field visibility
 
+                          // if ( _showTextField == true){
+                          //   fetchChildNodes(dataCollections[currentPage]);
+                          // }
+                        });
+                      },
+                    ),
+              IconButton(
+                icon: const Icon(Icons.account_balance),
                 onPressed: () {
                   setState(() {
-                    _showTextField = !_showTextField;
-                    childNodes = searchNodes;
-                  });
-                },
-              )
-                  :
-
-              IconButton(
-                icon: const Icon(Icons.search_sharp),
-                onPressed: () {
-                  setState(() {
-                    _showTextField = !_showTextField; // Toggle the text field visibility
-
-                    // if ( _showTextField == true){
-                    //   fetchChildNodes(dataCollections[currentPage]);
-                    // }
-
+                    Navigator.of(context).push(MaterialPageRoute(
+                        builder: (context) => TransactionList()));
                   });
                 },
               ),
-
-
-
-
               IconButton(
                 icon: _showAdditionalActions
                     ? const Icon(Icons.close)
-                    : const Icon(Icons.menu_open,size: 32,color: Colors.green,),
+                    : const Icon(
+                        Icons.menu_open,
+                        size: 32,
+                        color: Colors.green,
+                      ),
                 onPressed: () {
                   setState(() {
-
                     _showAdditionalActions = !_showAdditionalActions;
                   });
                 },
               ),
-
-
-
-
               AnimatedCrossFade(
-                firstChild:  const SizedBox(),
-                secondChild:
-                Row(
+                firstChild: const SizedBox(),
+                secondChild: Row(
                   children: [
-
                     IconButton(
                       icon: const Icon(Icons.vpn_key_outlined),
                       color: Colors.red,
@@ -954,8 +861,6 @@ class _NestedListViewDemoState extends State<NestedListViewDemo> {
                         _showAddPageDialog(context);
                       },
                     ),
-
-
                   ],
                 ),
                 crossFadeState: _showAdditionalActions
@@ -967,59 +872,57 @@ class _NestedListViewDemoState extends State<NestedListViewDemo> {
           ),
           body: isLoading
               ? const Center(child: CircularProgressIndicator())
-              :
-          GestureDetector(
-            onTap: () {
-              if (_showTextField == true){
-                setState(() {
-                  _showTextField = !_showTextField;
-                  childNodes = searchNodes;
-                });
-              }
+              : GestureDetector(
+                  onTap: () {
+                    if (_showTextField == true) {
+                      setState(() {
+                        _showTextField = !_showTextField;
+                        childNodes = searchNodes;
+                      });
+                    }
+                  },
+                  child: PageView.builder(
+                    controller: _pageController,
+                    itemCount: pageTitles.length,
+                    itemBuilder: (context, index) {
+                      if (index < dataCollections.length) {
+                        final page = VerticalListViewItem(
+                          key: UniqueKey(),
+                          userNames: childNodes,
+                          userSignature: widget.userSignature,
+                          dataCollection: dataCollections[index],
+                          currentPage: index,
+                          dataCollections:
+                              dataCollections, // Use index instead of currentPage
+                        );
 
-            },
-            child:
+                        pages.add(page);
 
-            PageView.builder(
-              controller: _pageController,
-              itemCount: pageTitles.length,
-              itemBuilder: (context, index) {
+                        return page;
+                      } else {
+                        return Center(
+                          child: Text('Data not available for index $index'),
+                        );
+                      }
+                    },
+                    // Modify the onPageChanged callback to handle currentPage bounds
 
-                if (index < dataCollections.length) {
-                  final page = VerticalListViewItem(
-                    key: UniqueKey(),
-                    userNames: childNodes,
-                    userSignature: widget.userSignature,
-                    dataCollection: dataCollections[index],
-                    currentPage: index,
-                    dataCollections: dataCollections, // Use index instead of currentPage
+                    onPageChanged: (int page) async {
+                      await _saveCurrentPage(page); // Save current page
+                      setState(() {
+                        currentPage = page.clamp(0, pageTitles.length - 1);
+                      });
+                      if (dataCollections.isNotEmpty) {
+                        childNodes.clear();
+                        Future.delayed(const Duration(milliseconds: 50), () {
+                          fetchChildNodes(dataCollections[currentPage]);
+                        });
 
-                  );
-
-                  pages.add(page);
-
-                  return page;
-                } else {
-                  return Center(
-                    child: Text('Data not available for index $index'),
-                  );
-                }
-              },
-              // Modify the onPageChanged callback to handle currentPage bounds
-
-              onPageChanged: (int page) async {
-                await _saveCurrentPage(page); // Save current page
-                setState(() {
-                  currentPage = page.clamp(0, pageTitles.length - 1);
-                });
-                if (dataCollections.isNotEmpty) {
-                  childNodes.clear();
-                  fetchChildNodes(dataCollections[currentPage]);
-                }
-              },
-            ),),
+                      }
+                    },
+                  ),
+                ),
           floatingActionButton: Container(
-
             margin: const EdgeInsets.only(bottom: 65),
             child: Padding(
               padding: const EdgeInsets.only(bottom: 10),
@@ -1041,10 +944,9 @@ class _NestedListViewDemoState extends State<NestedListViewDemo> {
                     // Future.delayed(Duration(milliseconds: 500), () {
                     // Navigator.of(context).pop();
 
-                    Navigator.of(context).push(
-                        MaterialPageRoute(
-                            builder: (context) => NestedListViewDemo(userSignature: widget.userSignature,
-
+                    Navigator.of(context).push(MaterialPageRoute(
+                        builder: (context) => NestedListViewDemo(
+                              userSignature: widget.userSignature,
                             )));
                     // });
                   } else {
@@ -1080,22 +982,17 @@ class _NestedListViewDemoState extends State<NestedListViewDemo> {
                     });
                   }
                 },
-                child:  Icon(Icons.add, color: Colors.indigo[500],size: 32,),
+                child: Icon(
+                  Icons.add,
+                  color: Colors.indigo[500],
+                  size: 32,
+                ),
               ),
             ),
           ),
-        )
-
-    );
+        ));
   }
-
-
-
-
 }
-
-
-
 
 class Node {
   String key;
@@ -1103,6 +1000,3 @@ class Node {
 
   Node(this.key, this.value);
 }
-
-
-

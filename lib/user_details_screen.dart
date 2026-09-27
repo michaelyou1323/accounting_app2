@@ -804,6 +804,7 @@ class _UserDetailsScreenState extends State<UserDetailsScreen> {
       'name': _nameController.text,
       'description': _descriptionController.text,
       'number': updatedNumber,
+      // updatedNumber, int.parse(_numberController.text)
       'quantity': int.parse(_quantityController.text),
       'price': newPrice,
       'totalPrice': int.parse(_quantityController.text) * newPrice,
@@ -987,7 +988,7 @@ class _UserDetailsScreenState extends State<UserDetailsScreen> {
                                 controller: _numberController,
                                 decoration:
                                 const InputDecoration(labelText: 'الرصيد'),
-                                enabled: false,
+                                enabled: true,
                                 // Enable/disable editing
                                 keyboardType: TextInputType.number,
                                 // Set keyboard type to number

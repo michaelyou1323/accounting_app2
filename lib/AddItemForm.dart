@@ -758,7 +758,6 @@ class _AddItemFormState extends State<AddItemForm> {
           'description': _descriptionController.text,
           'quantity': 1,
           'price': double.parse(_priceController.text),
-
           'totalPrice': totalPrice,
           'status': status,
           'userSignature': widget.userSignature,
